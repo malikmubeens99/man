@@ -7,90 +7,102 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #0b132b;
-      --card-bg: #1c2541;
-      --accent: #3a86ff;
-      --text: #f8fafc;
-      --text-dim: #94a3b8;
-      --success: #10b981;
-      --danger: #ef4444;
-      --warning: #f59e0b;
-      --border: #334155;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --accent: #2563eb;
+      --accent-hover: #1d4ed8;
+      --text: #1e293b;
+      --text-dim: #64748b;
+      --success: #16a34a;
+      --danger: #dc2626;
+      --warning: #d97706;
+      --border: #e2e8f0;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
     body { background-color: var(--bg); color: var(--text); padding: 24px; min-height: 100vh; }
-    .container { max-width: 1200px; margin: 0 auto; }
+    .container { max-width: 1250px; margin: 0 auto; }
 
     header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
-    h1 { font-size: 22px; font-weight: 700; }
-    .btn-notify { background-color: var(--warning); color: #000; padding: 9px 18px; border-radius: 8px; border: none; font-weight: 600; cursor: pointer; }
+    h1 { font-size: 24px; font-weight: 700; color: #0f172a; }
+    .btn-notify { background-color: #fef3c7; color: #92400e; border: 1px solid #fde68a; padding: 8px 16px; border-radius: 8px; font-weight: 600; cursor: pointer; }
 
     /* Form Container */
-    .form-card { background: var(--card-bg); padding: 22px; border-radius: 12px; border: 1px solid var(--border); margin-bottom: 24px; }
-    .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; }
+    .form-card { background: var(--card-bg); padding: 24px; border-radius: 12px; border: 1px solid var(--border); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); margin-bottom: 24px; }
+    .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }
     .form-group { display: flex; flex-direction: column; gap: 6px; }
-    label { font-size: 13px; color: var(--text-dim); }
-    input, select { background: #0b132b; border: 1px solid var(--border); padding: 10px; border-radius: 6px; color: var(--text); outline: none; }
-    input:focus, select:focus { border-color: var(--accent); }
+    label { font-size: 13px; font-weight: 500; color: var(--text-dim); }
+    input, select { background: #fff; border: 1px solid var(--border); padding: 10px; border-radius: 8px; color: var(--text); outline: none; font-size: 14px; }
+    input:focus, select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
 
     /* Days Checkboxes */
-    .days-box { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 6px; }
-    .day-label { display: flex; align-items: center; gap: 4px; font-size: 12px; background: #0b132b; padding: 5px 8px; border-radius: 4px; border: 1px solid var(--border); cursor: pointer; }
+    .days-box { display: flex; flex-wrap: gap; gap: 8px; margin-top: 6px; }
+    .day-label { display: flex; align-items: center; gap: 4px; font-size: 12px; background: #f1f5f9; padding: 6px 10px; border-radius: 6px; border: 1px solid var(--border); cursor: pointer; font-weight: 500; }
     .day-label input { accent-color: var(--accent); cursor: pointer; }
 
-    .btn-submit { background: var(--accent); color: #fff; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: 600; margin-top: 16px; }
+    .btn-submit { background: var(--accent); color: #fff; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; font-weight: 600; margin-top: 18px; transition: background 0.2s; }
+    .btn-submit:hover { background: var(--accent-hover); }
 
-    /* Filters & Controls */
+    /* Controls & Filters */
     .controls { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 12px; }
     .tabs { display: flex; gap: 8px; }
-    .tab-btn { background: var(--card-bg); color: var(--text-dim); border: 1px solid var(--border); padding: 8px 16px; border-radius: 6px; cursor: pointer; }
+    .tab-btn { background: var(--card-bg); color: var(--text-dim); border: 1px solid var(--border); padding: 8px 16px; border-radius: 8px; cursor: pointer; font-weight: 500; }
     .tab-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
 
     /* Table Styles */
-    .table-container { background: var(--card-bg); border-radius: 12px; border: 1px solid var(--border); overflow-x: auto; }
+    .table-container { background: var(--card-bg); border-radius: 12px; border: 1px solid var(--border); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); overflow-x: auto; }
     table { width: 100%; border-collapse: collapse; text-align: left; font-size: 14px; }
-    th { background: #131b33; padding: 14px; color: var(--text-dim); font-weight: 600; border-bottom: 1px solid var(--border); }
+    th { background: #f8fafc; padding: 14px; color: var(--text-dim); font-weight: 600; border-bottom: 1px solid var(--border); }
     td { padding: 14px; border-bottom: 1px solid var(--border); vertical-align: middle; }
     tr:last-child td { border-bottom: none; }
 
-    /* Badges & Buttons */
-    .badge { padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: 600; }
-    .badge-pk { background: #064e3b; color: #34d399; }
-    .badge-intl { background: #312e81; color: #818cf8; }
-    .day-chip { display: inline-block; background: #334155; font-size: 11px; padding: 2px 6px; border-radius: 3px; margin: 1px; }
+    .student-link { color: var(--accent); font-weight: 600; cursor: pointer; text-decoration: none; }
+    .student-link:hover { text-decoration: underline; }
 
-    .status-btn { padding: 5px 12px; border-radius: 5px; border: none; cursor: pointer; font-size: 12px; font-weight: 600; }
-    .status-paid { background: #064e3b; color: #34d399; }
-    .status-unpaid { background: #7f1d1d; color: #f87171; }
+    /* Badges & Status */
+    .badge { padding: 4px 8px; border-radius: 6px; font-size: 12px; font-weight: 600; }
+    .badge-pk { background: #dcfce7; color: #166534; }
+    .badge-intl { background: #e0e7ff; color: #3730a3; }
+    .day-chip { display: inline-block; background: #f1f5f9; color: var(--text-dim); font-size: 11px; padding: 2px 6px; border-radius: 4px; margin: 1px; border: 1px solid var(--border); }
+
+    .status-badge { padding: 5px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; display: inline-block; }
+    .status-paid { background: #dcfce7; color: #166534; }
+    .status-unpaid { background: #fee2e2; color: #991b1b; }
     .follow-up-badge { display: inline-block; background: var(--danger); color: white; font-size: 10px; padding: 2px 6px; border-radius: 4px; margin-left: 6px; }
 
-    .action-btn { background: transparent; border: none; cursor: pointer; font-size: 15px; margin-right: 8px; }
+    .action-btn { background: transparent; border: none; cursor: pointer; font-size: 16px; margin-right: 8px; }
     .btn-edit { color: var(--accent); }
     .btn-del { color: var(--danger); }
 
-    /* Edit Modal */
-    .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); justify-content: center; align-items: center; z-index: 100; }
-    .modal-content { background: var(--card-bg); border: 1px solid var(--border); padding: 24px; border-radius: 12px; width: 100%; max-width: 500px; max-height: 90vh; overflow-y: auto; }
+    /* Modals */
+    .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); backdrop-filter: blur(2px); justify-content: center; align-items: center; z-index: 100; }
+    .modal-content { background: var(--card-bg); border: 1px solid var(--border); padding: 24px; border-radius: 16px; width: 100%; max-width: 600px; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
     .modal-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; }
+
+    .profile-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; background: #f8fafc; padding: 14px; border-radius: 8px; border: 1px solid var(--border); margin-bottom: 16px; }
+    .profile-item label { font-size: 11px; color: var(--text-dim); display: block; }
+    .profile-item span { font-size: 14px; font-weight: 600; color: var(--text); }
+
+    .history-list { display: flex; flex-direction: column; gap: 8px; max-height: 250px; overflow-y: auto; padding-right: 4px; }
+    .history-row { display: flex; justify-content: space-between; align-items: center; background: #f8fafc; padding: 10px 14px; border-radius: 8px; border: 1px solid var(--border); }
   </style>
 </head>
 <body>
 
 <div class="container">
   <header>
-    <h1>Student Management & Repeating Classes</h1>
+    <h1>Academy Management System</h1>
     <button id="notifyBtn" class="btn-notify" onclick="enableNotifications()">🔔 Enable 1-Hour Alerts</button>
   </header>
 
   <!-- Add Student Form -->
   <div class="form-card">
-    <h2 style="font-size: 16px; margin-bottom: 14px;">Add New Student (Weekly Fixed Routine)</h2>
+    <h2 style="font-size: 16px; margin-bottom: 14px; color: #0f172a;">Add New Student Profile</h2>
     <form id="studentForm">
       <div class="form-grid">
         <div class="form-group">
           <label>Student Name</label>
-          <input type="text" id="name" required placeholder="e.g. Hassan Raza" />
+          <input type="text" id="name" required placeholder="e.g. Ali Ahmed" />
         </div>
         <div class="form-group">
           <label>Section</label>
@@ -100,8 +112,28 @@
           </select>
         </div>
         <div class="form-group">
+          <label>Assigned Teacher</label>
+          <select id="teacher" required>
+            <option value="Muneeb">Muneeb</option>
+            <option value="Saif">Saif</option>
+            <option value="Ali Akbar">Ali Akbar</option>
+          </select>
+        </div>
+        <div class="form-group">
           <label>Phone / WhatsApp</label>
           <input type="text" id="phone" required placeholder="+92 300..." />
+        </div>
+        <div class="form-group">
+          <label>Monthly Fee Amount (Rs)</label>
+          <input type="number" id="feeAmount" required placeholder="5000" />
+        </div>
+        <div class="form-group">
+          <label>Start / Joining Date</label>
+          <input type="date" id="startDate" required />
+        </div>
+        <div class="form-group">
+          <label>First Fee Paid Date</label>
+          <input type="date" id="firstFeeDate" required />
         </div>
         <div class="form-group">
           <label>Daily Class Time</label>
@@ -122,7 +154,7 @@
         </div>
       </div>
 
-      <button type="submit" class="btn-submit">+ Save Student Schedule</button>
+      <button type="submit" class="btn-submit">+ Register Student</button>
     </form>
   </div>
 
@@ -134,11 +166,11 @@
       <button class="tab-btn" onclick="setFilter('International')">International</button>
     </div>
     <div>
-      <label style="font-size: 13px; color: var(--text-dim); margin-right: 8px;">Fees:</label>
+      <label style="font-size: 13px; color: var(--text-dim); margin-right: 8px;">Fees Filter:</label>
       <select id="feeFilter" onchange="renderStudents()" style="padding: 6px 10px;">
         <option value="All">All Fees</option>
-        <option value="Pending">This Month Unpaid / Follow-up</option>
-        <option value="Paid">This Month Paid</option>
+        <option value="Pending">Current Month Unpaid</option>
+        <option value="Paid">Current Month Paid</option>
       </select>
     </div>
   </div>
@@ -148,11 +180,12 @@
     <table>
       <thead>
         <tr>
-          <th>Student</th>
+          <th>Student Name</th>
           <th>Section</th>
+          <th>Teacher</th>
           <th>Contact</th>
-          <th>Weekly Routine</th>
-          <th>Fee Status (Current Month)</th>
+          <th>Routine</th>
+          <th>Current Month Fee</th>
           <th>Actions</th>
         </tr>
       </thead>
@@ -161,45 +194,46 @@
   </div>
 </div>
 
+<!-- Details & Month-Wise Fee History Modal -->
+<div id="detailsModal" class="modal">
+  <div class="modal-content">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+      <h3 id="modalStudentName" style="font-size: 18px; font-weight: 700;">Student Profile</h3>
+      <button onclick="closeDetailsModal()" style="background:none; border:none; font-size:18px; cursor:pointer;">✕</button>
+    </div>
+
+    <div class="profile-grid">
+      <div class="profile-item"><label>Start / Joining Date</label><span id="modalStartDate">-</span></div>
+      <div class="profile-item"><label>First Fee Date</label><span id="modalFirstFeeDate">-</span></div>
+      <div class="profile-item"><label>Monthly Fee</label><span id="modalFeeAmount">-</span></div>
+      <div class="profile-item"><label>Assigned Teacher</label><span id="modalTeacher">-</span></div>
+    </div>
+
+    <h4 style="font-size: 14px; font-weight: 600; margin-bottom: 10px; color: var(--text-dim);">Month-wise Fee Ledger (Click to Toggle Paid/Pending)</h4>
+    <div class="history-list" id="modalFeeHistoryList">
+      <!-- Generated via JS -->
+    </div>
+
+    <div class="modal-actions">
+      <button type="button" class="tab-btn" onclick="closeDetailsModal()" style="background:#e2e8f0; color:#1e293b;">Close</button>
+    </div>
+  </div>
+</div>
+
 <!-- Edit Student Modal -->
 <div id="editModal" class="modal">
   <div class="modal-content">
-    <h3 style="margin-bottom: 16px;">Student Details Edit Karein</h3>
+    <h3 style="margin-bottom: 16px; font-weight: 700;">Edit Student Information</h3>
     <form id="editForm">
       <input type="hidden" id="editId" />
-      <div class="form-group" style="margin-bottom: 12px;">
-        <label>Student Name</label>
-        <input type="text" id="editName" required />
-      </div>
-      <div class="form-group" style="margin-bottom: 12px;">
-        <label>Section</label>
-        <select id="editCategory" required>
-          <option value="Pakistan">Pakistan</option>
-          <option value="International">International</option>
-        </select>
-      </div>
-      <div class="form-group" style="margin-bottom: 12px;">
-        <label>Phone / WhatsApp</label>
-        <input type="text" id="editPhone" required />
-      </div>
-      <div class="form-group" style="margin-bottom: 12px;">
-        <label>Daily Class Time</label>
-        <input type="time" id="editClassTime" required />
-      </div>
-      <div class="form-group">
-        <label>Weekly Class Days:</label>
-        <div class="days-box" id="editDaysContainer">
-          <label class="day-label"><input type="checkbox" value="1"> Mon</label>
-          <label class="day-label"><input type="checkbox" value="2"> Tue</label>
-          <label class="day-label"><input type="checkbox" value="3"> Wed</label>
-          <label class="day-label"><input type="checkbox" value="4"> Thu</label>
-          <label class="day-label"><input type="checkbox" value="5"> Fri</label>
-          <label class="day-label"><input type="checkbox" value="6"> Sat</label>
-          <label class="day-label"><input type="checkbox" value="0"> Sun</label>
-        </div>
-      </div>
+      <div class="form-group" style="margin-bottom: 12px;"><label>Name</label><input type="text" id="editName" required /></div>
+      <div class="form-group" style="margin-bottom: 12px;"><label>Section</label><select id="editCategory"><option value="Pakistan">Pakistan</option><option value="International">International</option></select></div>
+      <div class="form-group" style="margin-bottom: 12px;"><label>Teacher</label><select id="editTeacher"><option value="Muneeb">Muneeb</option><option value="Saif">Saif</option><option value="Ali Akbar">Ali Akbar</option></select></div>
+      <div class="form-group" style="margin-bottom: 12px;"><label>Phone</label><input type="text" id="editPhone" required /></div>
+      <div class="form-group" style="margin-bottom: 12px;"><label>Monthly Fee (Rs)</label><input type="number" id="editFeeAmount" required /></div>
+      <div class="form-group" style="margin-bottom: 12px;"><label>Class Time</label><input type="time" id="editClassTime" required /></div>
       <div class="modal-actions">
-        <button type="button" class="tab-btn" onclick="closeEditModal()">Cancel</button>
+        <button type="button" class="tab-btn" onclick="closeEditModal()" style="background:#e2e8f0; color:#1e293b;">Cancel</button>
         <button type="submit" class="btn-submit" style="margin-top:0;">Save Changes</button>
       </div>
     </form>
@@ -213,7 +247,6 @@
     getFirestore, collection, addDoc, onSnapshot, doc, updateDoc, deleteDoc 
   } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-  // Apna Firebase config yahan paste karein:
   const firebaseConfig = {
     apiKey: "YOUR_API_KEY",
     authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
@@ -232,27 +265,38 @@
   const notifiedTodaySet = new Set();
   const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
-  // Helper: Current Year-Month String (e.g., "2026-09")
   function getCurrentMonthKey() {
     const now = new Date();
     return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
   }
 
-  // Notification Permission
-  window.enableNotifications = () => {
-    if (!("Notification" in window)) {
-      alert("Browser notification support nahi karta.");
-      return;
+  // Generate all months between start date and current month
+  function getMonthsList(startDateStr) {
+    const months = [];
+    let start = startDateStr ? new Date(startDateStr) : new Date();
+    let current = new Date();
+    
+    start.setDate(1);
+    current.setDate(1);
+
+    while (start <= current) {
+      const y = start.getFullYear();
+      const m = String(start.getMonth() + 1).padStart(2, '0');
+      months.push(`${y}-${m}`);
+      start.setMonth(start.getMonth() + 1);
     }
+    return months.reverse(); // Newest first
+  }
+
+  window.enableNotifications = () => {
+    if (!("Notification" in window)) return;
     Notification.requestPermission().then(permission => {
       if (permission === "granted") {
         document.getElementById("notifyBtn").innerText = "✅ Alerts Active";
-        new Notification("Alerts Enabled", { body: "Har class se 1 ghanta pehle notification pop-up aayega." });
       }
     });
   };
 
-  // Realtime Database Listener
   onSnapshot(studentsCol, (snapshot) => {
     studentsList = [];
     snapshot.forEach((docSnap) => {
@@ -261,23 +305,27 @@
     renderStudents();
   });
 
-  // Add Student Form Handler
   document.getElementById("studentForm").addEventListener("submit", async (e) => {
     e.preventDefault();
     const selectedDays = Array.from(document.querySelectorAll("#daysContainer input:checked")).map(cb => parseInt(cb.value));
 
     if (selectedDays.length === 0) {
-      alert("Hafte ka kam az kam 1 din lazmi select karein!");
+      alert("Hafte ka kam az kam 1 din select karein!");
       return;
     }
 
+    const currentMonth = getCurrentMonthKey();
     const newStudent = {
       name: document.getElementById("name").value,
       category: document.getElementById("category").value,
+      teacher: document.getElementById("teacher").value,
       phone: document.getElementById("phone").value,
-      classTime: document.getElementById("classTime").value, // "17:00"
-      days: selectedDays, // [1, 3, 5]
-      lastPaidMonth: getCurrentMonthKey(), // Default current month paid
+      feeAmount: document.getElementById("feeAmount").value,
+      startDate: document.getElementById("startDate").value,
+      firstFeeDate: document.getElementById("firstFeeDate").value,
+      classTime: document.getElementById("classTime").value,
+      days: selectedDays,
+      feeHistory: { [currentMonth]: true }, // Default current month paid true or false as desired
       createdAt: new Date().toISOString()
     };
 
@@ -285,22 +333,62 @@
     document.getElementById("studentForm").reset();
   });
 
-  // Toggle Fee for Current Month
-  window.toggleFeeForMonth = async (id, currentLastPaidMonth) => {
-    const currentMonth = getCurrentMonthKey();
-    // Agar current month paid hai to use pichle month par set karke unpaid bana dein
-    const newMonthValue = (currentLastPaidMonth === currentMonth) ? "PREVIOUS_UNPAID" : currentMonth;
-    await updateDoc(doc(db, "students", id), { lastPaidMonth: newMonthValue });
+  // Toggle Fee for any month in details modal
+  window.toggleMonthFee = async (studentId, monthKey, currentStatus) => {
+    const student = studentsList.find(s => s.id === studentId);
+    if (!student) return;
+
+    const history = student.feeHistory || {};
+    history[monthKey] = !currentStatus;
+
+    await updateDoc(doc(db, "students", studentId), { feeHistory: history });
+    openDetailsModal(studentId); // Refresh modal view
   };
 
-  // Delete Student
   window.deleteStudent = async (id) => {
     if (confirm("Kya aap is student ko delete karna chahte hain?")) {
       await deleteDoc(doc(db, "students", id));
     }
   };
 
-  // Open Edit Modal
+  // Open Details Profile Modal
+  window.openDetailsModal = (id) => {
+    const student = studentsList.find(s => s.id === id);
+    if (!student) return;
+
+    document.getElementById("modalStudentName").innerText = student.name;
+    document.getElementById("modalStartDate").innerText = student.startDate || "N/A";
+    document.getElementById("modalFirstFeeDate").innerText = student.firstFeeDate || "N/A";
+    document.getElementById("modalFeeAmount").innerText = `Rs. ${student.feeAmount || 0}`;
+    document.getElementById("modalTeacher").innerText = student.teacher || "N/A";
+
+    const months = getMonthsList(student.startDate || student.firstFeeDate);
+    const historyList = document.getElementById("modalFeeHistoryList");
+    historyList.innerHTML = "";
+
+    const feeHistory = student.feeHistory || {};
+
+    months.forEach(month => {
+      const isPaid = !!feeHistory[month];
+      const row = document.createElement("div");
+      row.className = "history-row";
+      row.innerHTML = `
+        <span style="font-weight: 500;">📅 Month: ${month}</span>
+        <button class="status-badge ${isPaid ? 'status-paid' : 'status-unpaid'}" 
+                onclick="toggleMonthFee('${student.id}', '${month}', ${isPaid})">
+          ${isPaid ? '✓ Paid' : '✕ Pending (Click to Pay)'}
+        </button>
+      `;
+      historyList.appendChild(row);
+    });
+
+    document.getElementById("detailsModal").style.display = "flex";
+  };
+
+  window.closeDetailsModal = () => {
+    document.getElementById("detailsModal").style.display = "none";
+  };
+
   window.openEditModal = (id) => {
     const student = studentsList.find(s => s.id === id);
     if (!student) return;
@@ -308,13 +396,10 @@
     document.getElementById("editId").value = student.id;
     document.getElementById("editName").value = student.name;
     document.getElementById("editCategory").value = student.category;
+    document.getElementById("editTeacher").value = student.teacher || "Muneeb";
     document.getElementById("editPhone").value = student.phone;
+    document.getElementById("editFeeAmount").value = student.feeAmount || "";
     document.getElementById("editClassTime").value = student.classTime;
-
-    const editCheckboxes = document.querySelectorAll("#editDaysContainer input");
-    editCheckboxes.forEach(cb => {
-      cb.checked = (student.days || []).includes(parseInt(cb.value));
-    });
 
     document.getElementById("editModal").style.display = "flex";
   };
@@ -323,29 +408,20 @@
     document.getElementById("editModal").style.display = "none";
   };
 
-  // Save Edit Form
   document.getElementById("editForm").addEventListener("submit", async (e) => {
     e.preventDefault();
     const id = document.getElementById("editId").value;
-    const selectedDays = Array.from(document.querySelectorAll("#editDaysContainer input:checked")).map(cb => parseInt(cb.value));
-
-    if (selectedDays.length === 0) {
-      alert("Hafte ka kam az kam 1 din select karein!");
-      return;
-    }
-
     await updateDoc(doc(db, "students", id), {
       name: document.getElementById("editName").value,
       category: document.getElementById("editCategory").value,
+      teacher: document.getElementById("editTeacher").value,
       phone: document.getElementById("editPhone").value,
-      classTime: document.getElementById("editClassTime").value,
-      days: selectedDays
+      feeAmount: document.getElementById("editFeeAmount").value,
+      classTime: document.getElementById("editClassTime").value
     });
-
     closeEditModal();
   });
 
-  // Tab Filtering
   window.setFilter = (category) => {
     currentCategoryFilter = category;
     document.querySelectorAll(".tab-btn").forEach(btn => {
@@ -354,7 +430,6 @@
     renderStudents();
   };
 
-  // Render Table
   window.renderStudents = () => {
     const tbody = document.getElementById("studentTableBody");
     tbody.innerHTML = "";
@@ -362,79 +437,73 @@
     const currentMonth = getCurrentMonthKey();
 
     const filtered = studentsList.filter(s => {
-      const isPaidThisMonth = (s.lastPaidMonth === currentMonth);
-      const feeStatus = isPaidThisMonth ? "Paid" : "Pending";
+      const isPaidCurrent = !!(s.feeHistory && s.feeHistory[currentMonth]);
+      const currentStatusStr = isPaidCurrent ? "Paid" : "Pending";
 
       const matchCat = currentCategoryFilter === "All" || s.category === currentCategoryFilter;
-      const matchFee = feeFilter === "All" || feeStatus === feeFilter;
+      const matchFee = feeFilter === "All" || currentStatusStr === feeFilter;
       return matchCat && matchFee;
     });
 
     if (filtered.length === 0) {
-      tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color: var(--text-dim); padding: 24px;">Koi student record mojood nahi.</td></tr>`;
+      tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; color: var(--text-dim); padding: 24px;">No student records found.</td></tr>`;
       return;
     }
 
     filtered.forEach(s => {
-      const isPaid = (s.lastPaidMonth === currentMonth);
+      const isPaidCurrent = !!(s.feeHistory && s.feeHistory[currentMonth]);
       const daysChips = (s.days || []).map(d => `<span class="day-chip">${dayNames[d]}</span>`).join(" ");
 
       const tr = document.createElement("tr");
       tr.innerHTML = `
-        <td style="font-weight: 600;">${s.name}</td>
         <td>
-          <span class="badge ${s.category === 'Pakistan' ? 'badge-pk' : 'badge-intl'}">
-            ${s.category}
-          </span>
+          <a class="student-link" onclick="openDetailsModal('${s.id}')">${s.name}</a>
         </td>
+        <td><span class="badge ${s.category === 'Pakistan' ? 'badge-pk' : 'badge-intl'}">${s.category}</span></td>
+        <td style="font-weight: 500;">👨‍🏫 ${s.teacher || 'N/A'}</td>
         <td style="color: var(--text-dim);">${s.phone}</td>
         <td>
-          <div style="font-weight: 500; margin-bottom: 2px;">🕒 ${s.classTime}</div>
+          <div style="font-weight: 500; font-size: 13px;">🕒 ${s.classTime}</div>
           <div>${daysChips}</div>
         </td>
         <td>
-          <button class="status-btn ${isPaid ? 'status-paid' : 'status-unpaid'}" 
-                  onclick="toggleFeeForMonth('${s.id}', '${s.lastPaidMonth}')">
-            ${isPaid ? 'Paid' : 'Pending'}
+          <button class="status-badge ${isPaidCurrent ? 'status-paid' : 'status-unpaid'}" 
+                  onclick="toggleMonthFee('${s.id}', '${currentMonth}', ${isPaidCurrent})">
+            ${isPaidCurrent ? 'Paid' : 'Pending'}
           </button>
-          ${!isPaid ? '<span class="follow-up-badge">Follow-up</span>' : ''}
+          ${!isPaidCurrent ? '<span class="follow-up-badge">Follow-up</span>' : ''}
         </td>
         <td>
-          <button class="action-btn btn-edit" onclick="openEditModal('${s.id}')" title="Edit Student">✏️</button>
-          <button class="action-btn btn-del" onclick="deleteStudent('${s.id}')" title="Delete Student">🗑️</button>
+          <button class="action-btn btn-edit" onclick="openEditModal('${s.id}')" title="Edit">✏️</button>
+          <button class="action-btn btn-del" onclick="deleteStudent('${s.id}')" title="Delete">🗑️</button>
         </td>
       `;
       tbody.appendChild(tr);
     });
   };
 
-  // Repeating 1-Hour Alert Checker (Runs every 30 seconds)
+  // 1-Hour Alert Checker
   setInterval(() => {
     if (Notification.permission !== "granted") return;
-
     const now = new Date();
-    const currentDay = now.getDay(); // 0-6 (Sun-Sat)
+    const currentDay = now.getDay();
     const currentHour = now.getHours();
     const currentMin = now.getMinutes();
 
     studentsList.forEach(student => {
-      // Check agar student ki class aaj ke din hai
       if (student.days && student.days.includes(currentDay)) {
         const [targetHour, targetMin] = student.classTime.split(":").map(Number);
-
-        // Minutes calculation
         const nowTotalMins = (currentHour * 60) + currentMin;
         const targetTotalMins = (targetHour * 60) + targetMin;
         const diffMins = targetTotalMins - nowTotalMins;
 
-        // Exactly 50 se 60 minutes ke gap par alert trigger
         const notifyKey = `${student.id}_${now.toDateString()}`;
         if (diffMins > 0 && diffMins <= 60 && !notifiedTodaySet.has(notifyKey)) {
           new Notification(`⏰ Class Reminder: ${student.name}`, {
-            body: `${student.name} ki class theek 1 ghante baad (${student.classTime}) shuru hogi! [${student.category}]`,
+            body: `${student.name} ki class (${student.teacher} ke sath) 1 ghante mein hai!`,
             icon: "https://cdn-icons-png.flaticon.com/512/2984/2984976.png"
           });
-          notifiedTodaySet.add(notifyKey); // Aaj ke din dobara notification trigger na ho
+          notifiedTodaySet.add(notifyKey);
         }
       }
     });
