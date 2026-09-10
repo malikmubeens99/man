@@ -3,101 +3,117 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Student Academy Management Portal</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <title>EduFlow Management Portal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg: #f8fafc;
       --card-bg: #ffffff;
-      --accent: #2563eb;
-      --accent-hover: #1d4ed8;
-      --text: #1e293b;
+      --primary: #4f46e5;
+      --primary-hover: #4338ca;
+      --text: #0f172a;
       --text-dim: #64748b;
-      --success: #16a34a;
-      --danger: #dc2626;
-      --warning: #d97706;
-      --border: #e2e8f0;
+      --success: #10b981;
+      --success-bg: #ecfdf5;
+      --danger: #f43f5e;
+      --danger-bg: #fff1f2;
+      --warning: #f59e0b;
+      --warning-bg: #fffbeb;
+      --border: #f1f5f9;
+      --border-dark: #e2e8f0;
+      --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
-    body { background-color: var(--bg); color: var(--text); padding: 24px; min-height: 100vh; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+    body { background-color: var(--bg); color: var(--text); padding: 32px 16px; min-height: 100vh; }
     .container { max-width: 1250px; margin: 0 auto; }
 
-    header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
-    h1 { font-size: 24px; font-weight: 700; color: #0f172a; }
-    .btn-notify { background-color: #fef3c7; color: #92400e; border: 1px solid #fde68a; padding: 8px 16px; border-radius: 8px; font-weight: 600; cursor: pointer; }
+    header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px; background: white; padding: 20px 28px; border-radius: 16px; border: 1px solid var(--border-dark); box-shadow: var(--shadow); }
+    h1 { font-size: 22px; font-weight: 700; background: linear-gradient(135deg, #4f46e5 0%, #9333ea 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .btn-notify { background-color: var(--warning-bg); color: var(--warning); border: 1px solid #fef3c7; padding: 10px 18px; border-radius: 10px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+    .btn-notify:hover { background: #fef3c7; }
 
-    /* Form Container */
-    .form-card { background: var(--card-bg); padding: 24px; border-radius: 12px; border: 1px solid var(--border); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); margin-bottom: 24px; }
-    .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }
-    .form-group { display: flex; flex-direction: column; gap: 6px; }
-    label { font-size: 13px; font-weight: 500; color: var(--text-dim); }
-    input, select { background: #fff; border: 1px solid var(--border); padding: 10px; border-radius: 8px; color: var(--text); outline: none; font-size: 14px; }
-    input:focus, select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
+    /* Form Card */
+    .form-card { background: var(--card-bg); padding: 28px; border-radius: 20px; border: 1px solid var(--border-dark); box-shadow: var(--shadow); margin-bottom: 32px; }
+    .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 18px; }
+    .form-group { display: flex; flex-direction: column; gap: 8px; }
+    label { font-size: 13px; font-weight: 600; color: var(--text-dim); }
+    input, select { background: #fcfdfe; border: 1px solid var(--border-dark); padding: 12px; border-radius: 10px; color: var(--text); outline: none; font-size: 14px; transition: all 0.2s; }
+    input:focus, select:focus { border-color: var(--primary); background: #fff; box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1); }
 
     /* Days Checkboxes */
-    .days-box { display: flex; flex-wrap: gap; gap: 8px; margin-top: 6px; }
-    .day-label { display: flex; align-items: center; gap: 4px; font-size: 12px; background: #f1f5f9; padding: 6px 10px; border-radius: 6px; border: 1px solid var(--border); cursor: pointer; font-weight: 500; }
-    .day-label input { accent-color: var(--accent); cursor: pointer; }
+    .days-box { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+    .day-label { display: flex; align-items: center; gap: 6px; font-size: 12px; background: #f8fafc; padding: 8px 12px; border-radius: 8px; border: 1px solid var(--border-dark); cursor: pointer; font-weight: 600; color: var(--text-dim); transition: all 0.2s; }
+    .day-label:hover { border-color: var(--primary); color: var(--primary); }
+    .day-label input { accent-color: var(--primary); cursor: pointer; }
 
-    .btn-submit { background: var(--accent); color: #fff; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; font-weight: 600; margin-top: 18px; transition: background 0.2s; }
-    .btn-submit:hover { background: var(--accent-hover); }
+    .btn-submit { background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%); color: #fff; border: none; padding: 14px 28px; border-radius: 10px; cursor: pointer; font-weight: 600; margin-top: 20px; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3); transition: all 0.2s; }
+    .btn-submit:hover { opacity: 0.95; transform: translateY(-1px); }
 
-    /* Controls & Filters */
-    .controls { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 12px; }
-    .tabs { display: flex; gap: 8px; }
-    .tab-btn { background: var(--card-bg); color: var(--text-dim); border: 1px solid var(--border); padding: 8px 16px; border-radius: 8px; cursor: pointer; font-weight: 500; }
-    .tab-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
+    /* Controls & Tabs */
+    .controls { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 16px; }
+    .tabs { display: flex; gap: 8px; background: white; padding: 6px; border-radius: 12px; border: 1px solid var(--border-dark); box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+    .tab-btn { background: transparent; color: var(--text-dim); border: none; padding: 8px 18px; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 13px; transition: all 0.2s; }
+    .tab-btn.active { background: var(--primary); color: white; box-shadow: 0 2px 8px rgba(79, 70, 229, 0.3); }
 
-    /* Table Styles */
-    .table-container { background: var(--card-bg); border-radius: 12px; border: 1px solid var(--border); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); overflow-x: auto; }
+    /* Table Container */
+    .table-container { background: var(--card-bg); border-radius: 20px; border: 1px solid var(--border-dark); box-shadow: var(--shadow); overflow-x: auto; }
     table { width: 100%; border-collapse: collapse; text-align: left; font-size: 14px; }
-    th { background: #f8fafc; padding: 14px; color: var(--text-dim); font-weight: 600; border-bottom: 1px solid var(--border); }
-    td { padding: 14px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+    th { background: #fafafa; padding: 16px 20px; color: var(--text-dim); font-weight: 600; border-bottom: 1px solid var(--border-dark); }
+    td { padding: 16px 20px; border-bottom: 1px solid var(--border); vertical-align: middle; }
     tr:last-child td { border-bottom: none; }
+    tr:hover td { background: #fcfdfe; }
 
-    .student-link { color: var(--accent); font-weight: 600; cursor: pointer; text-decoration: none; }
-    .student-link:hover { text-decoration: underline; }
+    .student-link { color: var(--primary); font-weight: 700; cursor: pointer; text-decoration: none; transition: color 0.2s; }
+    .student-link:hover { color: var(--primary-hover); text-decoration: underline; }
 
-    /* Badges & Status */
-    .badge { padding: 4px 8px; border-radius: 6px; font-size: 12px; font-weight: 600; }
-    .badge-pk { background: #dcfce7; color: #166534; }
-    .badge-intl { background: #e0e7ff; color: #3730a3; }
-    .day-chip { display: inline-block; background: #f1f5f9; color: var(--text-dim); font-size: 11px; padding: 2px 6px; border-radius: 4px; margin: 1px; border: 1px solid var(--border); }
+    /* Badges & Pills */
+    .badge { padding: 6px 12px; border-radius: 20px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+    .badge-pk { background: #e0f2fe; color: #0369a1; }
+    .badge-intl { background: #f3e8ff; color: #7e22ce; }
 
-    .status-badge { padding: 5px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; display: inline-block; }
-    .status-paid { background: #dcfce7; color: #166534; }
-    .status-unpaid { background: #fee2e2; color: #991b1b; }
-    .follow-up-badge { display: inline-block; background: var(--danger); color: white; font-size: 10px; padding: 2px 6px; border-radius: 4px; margin-left: 6px; }
+    .teacher-pill { background: #f1f5f9; color: #334155; padding: 6px 12px; border-radius: 8px; font-weight: 600; font-size: 13px; display: inline-block; border: 1px solid var(--border-dark); }
+    .day-chip { display: inline-block; background: #f8fafc; color: var(--text-dim); font-size: 10px; padding: 2px 6px; border-radius: 4px; margin: 2px; border: 1px solid var(--border-dark); font-weight: 600; }
 
-    .action-btn { background: transparent; border: none; cursor: pointer; font-size: 16px; margin-right: 8px; }
-    .btn-edit { color: var(--accent); }
+    .status-badge { padding: 6px 14px; border-radius: 8px; font-size: 12px; font-weight: 700; display: inline-flex; align-items: center; gap: 6px; cursor: pointer; border: none; transition: transform 0.1s; }
+    .status-badge:active { transform: scale(0.96); }
+    .status-paid { background: var(--success-bg); color: var(--success); }
+    .status-unpaid { background: var(--danger-bg); color: var(--danger); }
+    .follow-up-badge { background: var(--danger); color: white; font-size: 9px; padding: 2px 6px; border-radius: 4px; font-weight: 700; margin-left: 6px; }
+
+    .action-btn { background: #f8fafc; border: 1px solid var(--border-dark); border-radius: 8px; cursor: pointer; font-size: 15px; padding: 6px 10px; margin-right: 6px; transition: all 0.2s; }
+    .action-btn:hover { background: #f1f5f9; }
+    .btn-edit { color: var(--primary); }
     .btn-del { color: var(--danger); }
 
-    /* Modals */
-    .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); backdrop-filter: blur(2px); justify-content: center; align-items: center; z-index: 100; }
-    .modal-content { background: var(--card-bg); border: 1px solid var(--border); padding: 24px; border-radius: 16px; width: 100%; max-width: 600px; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
-    .modal-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; }
+    /* Modals & Drawer */
+    .modal { display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.4); backdrop-filter: blur(4px); justify-content: center; align-items: center; z-index: 100; padding: 16px; }
+    .modal-content { background: var(--card-bg); border: 1px solid var(--border-dark); padding: 32px; border-radius: 24px; width: 100%; max-width: 650px; max-height: 90vh; overflow-y: auto; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); animation: modalIn 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+    
+    @keyframes modalIn {
+      from { opacity: 0; transform: translateY(20px) scale(0.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
 
-    .profile-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; background: #f8fafc; padding: 14px; border-radius: 8px; border: 1px solid var(--border); margin-bottom: 16px; }
-    .profile-item label { font-size: 11px; color: var(--text-dim); display: block; }
-    .profile-item span { font-size: 14px; font-weight: 600; color: var(--text); }
+    .profile-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; background: #f8fafc; padding: 18px; border-radius: 16px; border: 1px solid var(--border-dark); margin-bottom: 24px; }
+    .profile-item label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-dim); display: block; margin-bottom: 2px; }
+    .profile-item span { font-size: 15px; font-weight: 700; color: var(--text); }
 
-    .history-list { display: flex; flex-direction: column; gap: 8px; max-height: 250px; overflow-y: auto; padding-right: 4px; }
-    .history-row { display: flex; justify-content: space-between; align-items: center; background: #f8fafc; padding: 10px 14px; border-radius: 8px; border: 1px solid var(--border); }
+    .history-list { display: flex; flex-direction: column; gap: 10px; max-height: 280px; overflow-y: auto; padding-right: 4px; }
+    .history-row { display: flex; justify-content: space-between; align-items: center; background: #fafafa; padding: 12px 16px; border-radius: 12px; border: 1px solid var(--border-dark); }
   </style>
 </head>
 <body>
 
 <div class="container">
   <header>
-    <h1>Academy Management System</h1>
+    <h1>EduFlow Management System</h1>
     <button id="notifyBtn" class="btn-notify" onclick="enableNotifications()">🔔 Enable 1-Hour Alerts</button>
   </header>
 
   <!-- Add Student Form -->
   <div class="form-card">
-    <h2 style="font-size: 16px; margin-bottom: 14px; color: #0f172a;">Add New Student Profile</h2>
+    <h2 style="font-size: 18px; font-weight: 700; margin-bottom: 18px; color: var(--text);">Add New Student Profile</h2>
     <form id="studentForm">
       <div class="form-grid">
         <div class="form-group">
@@ -128,7 +144,7 @@
           <input type="number" id="feeAmount" required placeholder="5000" />
         </div>
         <div class="form-group">
-          <label>Start / Joining Date</label>
+          <label>Joining / Start Date</label>
           <input type="date" id="startDate" required />
         </div>
         <div class="form-group">
@@ -141,7 +157,7 @@
         </div>
       </div>
 
-      <div class="form-group" style="margin-top: 14px;">
+      <div class="form-group" style="margin-top: 18px;">
         <label>Weekly Class Days:</label>
         <div class="days-box" id="daysContainer">
           <label class="day-label"><input type="checkbox" value="1"> Mon</label>
@@ -158,7 +174,7 @@
     </form>
   </div>
 
-  <!-- Controls & Filters -->
+  <!-- Filters & Controls -->
   <div class="controls">
     <div class="tabs">
       <button class="tab-btn active" onclick="setFilter('All')">All Students</button>
@@ -166,16 +182,15 @@
       <button class="tab-btn" onclick="setFilter('International')">International</button>
     </div>
     <div>
-      <label style="font-size: 13px; color: var(--text-dim); margin-right: 8px;">Fees Filter:</label>
-      <select id="feeFilter" onchange="renderStudents()" style="padding: 6px 10px;">
-        <option value="All">All Fees</option>
+      <select id="feeFilter" onchange="renderStudents()" style="padding: 10px 14px; border-radius: 10px; background: white;">
+        <option value="All">All Fee Status</option>
         <option value="Pending">Current Month Unpaid</option>
         <option value="Paid">Current Month Paid</option>
       </select>
     </div>
   </div>
 
-  <!-- Students Data Table -->
+  <!-- Students Table -->
   <div class="table-container">
     <table>
       <thead>
@@ -194,28 +209,26 @@
   </div>
 </div>
 
-<!-- Details & Month-Wise Fee History Modal -->
+<!-- Student Profile & Month-wise Fee Ledger Modal -->
 <div id="detailsModal" class="modal">
   <div class="modal-content">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-      <h3 id="modalStudentName" style="font-size: 18px; font-weight: 700;">Student Profile</h3>
-      <button onclick="closeDetailsModal()" style="background:none; border:none; font-size:18px; cursor:pointer;">✕</button>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+      <h3 id="modalStudentName" style="font-size: 20px; font-weight: 700; color: var(--text);">Student Details</h3>
+      <button onclick="closeDetailsModal()" style="background:#f1f5f9; border:none; width:32px; height:32px; border-radius:50%; font-size:16px; cursor:pointer; font-weight:bold;">✕</button>
     </div>
 
     <div class="profile-grid">
-      <div class="profile-item"><label>Start / Joining Date</label><span id="modalStartDate">-</span></div>
+      <div class="profile-item"><label>Joining Date</label><span id="modalStartDate">-</span></div>
       <div class="profile-item"><label>First Fee Date</label><span id="modalFirstFeeDate">-</span></div>
       <div class="profile-item"><label>Monthly Fee</label><span id="modalFeeAmount">-</span></div>
       <div class="profile-item"><label>Assigned Teacher</label><span id="modalTeacher">-</span></div>
     </div>
 
-    <h4 style="font-size: 14px; font-weight: 600; margin-bottom: 10px; color: var(--text-dim);">Month-wise Fee Ledger (Click to Toggle Paid/Pending)</h4>
-    <div class="history-list" id="modalFeeHistoryList">
-      <!-- Generated via JS -->
-    </div>
+    <h4 style="font-size: 15px; font-weight: 700; margin-bottom: 12px; color: var(--text);">Month-wise Fee History (Click to Toggle Paid/Pending)</h4>
+    <div class="history-list" id="modalFeeHistoryList"></div>
 
-    <div class="modal-actions">
-      <button type="button" class="tab-btn" onclick="closeDetailsModal()" style="background:#e2e8f0; color:#1e293b;">Close</button>
+    <div style="display: flex; justify-content: flex-end; margin-top: 24px;">
+      <button type="button" class="tab-btn" onclick="closeDetailsModal()" style="background:#e2e8f0; color:#0f172a; padding: 10px 20px;">Close Window</button>
     </div>
   </div>
 </div>
@@ -223,18 +236,18 @@
 <!-- Edit Student Modal -->
 <div id="editModal" class="modal">
   <div class="modal-content">
-    <h3 style="margin-bottom: 16px; font-weight: 700;">Edit Student Information</h3>
+    <h3 style="margin-bottom: 20px; font-weight: 700; font-size: 18px;">Edit Student Information</h3>
     <form id="editForm">
       <input type="hidden" id="editId" />
-      <div class="form-group" style="margin-bottom: 12px;"><label>Name</label><input type="text" id="editName" required /></div>
-      <div class="form-group" style="margin-bottom: 12px;"><label>Section</label><select id="editCategory"><option value="Pakistan">Pakistan</option><option value="International">International</option></select></div>
-      <div class="form-group" style="margin-bottom: 12px;"><label>Teacher</label><select id="editTeacher"><option value="Muneeb">Muneeb</option><option value="Saif">Saif</option><option value="Ali Akbar">Ali Akbar</option></select></div>
-      <div class="form-group" style="margin-bottom: 12px;"><label>Phone</label><input type="text" id="editPhone" required /></div>
-      <div class="form-group" style="margin-bottom: 12px;"><label>Monthly Fee (Rs)</label><input type="number" id="editFeeAmount" required /></div>
-      <div class="form-group" style="margin-bottom: 12px;"><label>Class Time</label><input type="time" id="editClassTime" required /></div>
-      <div class="modal-actions">
-        <button type="button" class="tab-btn" onclick="closeEditModal()" style="background:#e2e8f0; color:#1e293b;">Cancel</button>
-        <button type="submit" class="btn-submit" style="margin-top:0;">Save Changes</button>
+      <div class="form-group" style="margin-bottom: 14px;"><label>Name</label><input type="text" id="editName" required /></div>
+      <div class="form-group" style="margin-bottom: 14px;"><label>Section</label><select id="editCategory"><option value="Pakistan">Pakistan</option><option value="International">International</option></select></div>
+      <div class="form-group" style="margin-bottom: 14px;"><label>Teacher</label><select id="editTeacher"><option value="Muneeb">Muneeb</option><option value="Saif">Saif</option><option value="Ali Akbar">Ali Akbar</option></select></div>
+      <div class="form-group" style="margin-bottom: 14px;"><label>Phone</label><input type="text" id="editPhone" required /></div>
+      <div class="form-group" style="margin-bottom: 14px;"><label>Monthly Fee (Rs)</label><input type="number" id="editFeeAmount" required /></div>
+      <div class="form-group" style="margin-bottom: 14px;"><label>Class Time</label><input type="time" id="editClassTime" required /></div>
+      <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px;">
+        <button type="button" class="tab-btn" onclick="closeEditModal()" style="background:#e2e8f0; color:#0f172a; padding: 10px 18px;">Cancel</button>
+        <button type="submit" class="btn-submit" style="margin-top:0; padding: 10px 20px;">Save Changes</button>
       </div>
     </form>
   </div>
@@ -270,7 +283,7 @@
     return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
   }
 
-  // Generate all months between start date and current month
+  // Generate list of months from student's start date up to current month
   function getMonthsList(startDateStr) {
     const months = [];
     let start = startDateStr ? new Date(startDateStr) : new Date();
@@ -285,7 +298,7 @@
       months.push(`${y}-${m}`);
       start.setMonth(start.getMonth() + 1);
     }
-    return months.reverse(); // Newest first
+    return months.reverse(); // Latest month first
   }
 
   window.enableNotifications = () => {
@@ -310,7 +323,7 @@
     const selectedDays = Array.from(document.querySelectorAll("#daysContainer input:checked")).map(cb => parseInt(cb.value));
 
     if (selectedDays.length === 0) {
-      alert("Hafte ka kam az kam 1 din select karein!");
+      alert("Kam az kam aik class day select karna lazmi hai!");
       return;
     }
 
@@ -325,7 +338,7 @@
       firstFeeDate: document.getElementById("firstFeeDate").value,
       classTime: document.getElementById("classTime").value,
       days: selectedDays,
-      feeHistory: { [currentMonth]: true }, // Default current month paid true or false as desired
+      feeHistory: { [currentMonth]: true },
       createdAt: new Date().toISOString()
     };
 
@@ -333,7 +346,6 @@
     document.getElementById("studentForm").reset();
   });
 
-  // Toggle Fee for any month in details modal
   window.toggleMonthFee = async (studentId, monthKey, currentStatus) => {
     const student = studentsList.find(s => s.id === studentId);
     if (!student) return;
@@ -342,21 +354,21 @@
     history[monthKey] = !currentStatus;
 
     await updateDoc(doc(db, "students", studentId), { feeHistory: history });
-    openDetailsModal(studentId); // Refresh modal view
+    openDetailsModal(studentId); // Refresh modal view instantly
   };
 
   window.deleteStudent = async (id) => {
-    if (confirm("Kya aap is student ko delete karna chahte hain?")) {
+    if (confirm("Kya aap is student ko system se delete karna chahte hain?")) {
       await deleteDoc(doc(db, "students", id));
     }
   };
 
-  // Open Details Profile Modal
+  // Open Details Modal & Render Month-wise Ledger
   window.openDetailsModal = (id) => {
     const student = studentsList.find(s => s.id === id);
     if (!student) return;
 
-    document.getElementById("modalStudentName").innerText = student.name;
+    document.getElementById("modalStudentName").innerText = student.name + " (Profile)";
     document.getElementById("modalStartDate").innerText = student.startDate || "N/A";
     document.getElementById("modalFirstFeeDate").innerText = student.firstFeeDate || "N/A";
     document.getElementById("modalFeeAmount").innerText = `Rs. ${student.feeAmount || 0}`;
@@ -373,7 +385,7 @@
       const row = document.createElement("div");
       row.className = "history-row";
       row.innerHTML = `
-        <span style="font-weight: 500;">📅 Month: ${month}</span>
+        <span style="font-weight: 600; font-size: 14px;">📅 Month: ${month}</span>
         <button class="status-badge ${isPaid ? 'status-paid' : 'status-unpaid'}" 
                 onclick="toggleMonthFee('${student.id}', '${month}', ${isPaid})">
           ${isPaid ? '✓ Paid' : '✕ Pending (Click to Pay)'}
@@ -446,7 +458,7 @@
     });
 
     if (filtered.length === 0) {
-      tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; color: var(--text-dim); padding: 24px;">No student records found.</td></tr>`;
+      tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; color: var(--text-dim); padding: 32px;">No student records found.</td></tr>`;
       return;
     }
 
@@ -460,16 +472,16 @@
           <a class="student-link" onclick="openDetailsModal('${s.id}')">${s.name}</a>
         </td>
         <td><span class="badge ${s.category === 'Pakistan' ? 'badge-pk' : 'badge-intl'}">${s.category}</span></td>
-        <td style="font-weight: 500;">👨‍🏫 ${s.teacher || 'N/A'}</td>
-        <td style="color: var(--text-dim);">${s.phone}</td>
+        <td><span class="teacher-pill">👨‍🏫 ${s.teacher || 'N/A'}</span></td>
+        <td style="color: var(--text-dim); font-weight: 500;">${s.phone}</td>
         <td>
-          <div style="font-weight: 500; font-size: 13px;">🕒 ${s.classTime}</div>
+          <div style="font-weight: 600; font-size: 13px; margin-bottom: 2px;">🕒 ${s.classTime}</div>
           <div>${daysChips}</div>
         </td>
         <td>
           <button class="status-badge ${isPaidCurrent ? 'status-paid' : 'status-unpaid'}" 
                   onclick="toggleMonthFee('${s.id}', '${currentMonth}', ${isPaidCurrent})">
-            ${isPaidCurrent ? 'Paid' : 'Pending'}
+            ${isPaidCurrent ? '✓ Paid' : '✕ Pending'}
           </button>
           ${!isPaidCurrent ? '<span class="follow-up-badge">Follow-up</span>' : ''}
         </td>
@@ -482,7 +494,7 @@
     });
   };
 
-  // 1-Hour Alert Checker
+  // 1-Hour Alert Reminder
   setInterval(() => {
     if (Notification.permission !== "granted") return;
     const now = new Date();
@@ -500,7 +512,7 @@
         const notifyKey = `${student.id}_${now.toDateString()}`;
         if (diffMins > 0 && diffMins <= 60 && !notifiedTodaySet.has(notifyKey)) {
           new Notification(`⏰ Class Reminder: ${student.name}`, {
-            body: `${student.name} ki class (${student.teacher} ke sath) 1 ghante mein hai!`,
+            body: `${student.name} ki class (${student.teacher} ke sath) 1 ghante mein start hogi!`,
             icon: "https://cdn-icons-png.flaticon.com/512/2984/2984976.png"
           });
           notifiedTodaySet.add(notifyKey);
