@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student & Class Management Portal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card-bg: #1e293b;
+      --accent: #3b82f6;
+      --text: #f8fafc;
+      --text-dim: #94a3b8;
+      --success: #10b981;
+      --danger: #ef4444;
+      --warning: #f59e0b;
+      --border: #334155;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+    body { background-color: var(--bg); color: var(--text); padding: 24px; min-height: 100vh; }
+    .container { max-width: 1200px; margin: 0 auto; }
+
+    header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+    h1 { font-size: 24px; font-weight: 700; }
+    .btn-notify { background-color: var(--warning); color: #000; padding: 8px 16px; border-radius: 6px; border: none; font-weight: 600; cursor: pointer; }
+
+    /* Form Container */
+    .form-card { background: var(--card-bg); padding: 20px; border-radius: 12px; border: 1px solid var(--border); margin-bottom: 24px; }
+    .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    label { font-size: 13px; color: var(--text-dim); }
+    input, select { background: #0f172a; border: 1px solid var(--border); padding: 10px; border-radius: 6px; color: var(--text); outline: none; }
+    input:focus, select:focus { border-color: var(--accent); }
+    .btn-submit { background: var(--accent); color: #fff; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: 600; margin-top: 18px; }
+
+    /* Tabs & Filters */
+    .controls { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 12px; }
+    .tabs { display: flex; gap: 8px; }
+    .tab-btn { background: var(--card-bg); color: var(--text-dim); border: 1px solid var(--border); padding: 8px 16px; border-radius: 6px; cursor: pointer; }
+    .tab-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
+
+    /* Table Styles */
+    .table-container { background: var(--card-bg); border-radius: 12px; border: 1px solid var(--border); overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; text-align: left; font-size: 14px; }
+    th { background: #162032; padding: 14px; color: var(--text-dim); font-weight: 600; border-bottom: 1px solid var(--border); }
+    td { padding: 14px; border-bottom: 1px solid var(--border); }
+    tr:last-child td { border-bottom: none; }
+
+    /* Badges & Buttons */
+    .badge { padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: 600; }
+    .badge-pk { background: #064e3b; color: #34d399; }
+    .badge-intl { background: #312e81; color: #818cf8; }
+    .status-btn { padding: 4px 10px; border-radius: 4px; border: none; cursor: pointer; font-size: 12px; font-weight: 600; }
+    .status-paid { background: #064e3b; color: #34d399; }
+    .status-unpaid { background: #7f1d1d; color: #f87171; }
+    .follow-up-badge { display: inline-block; background: var(--danger); color: white; font-size: 10px; padding: 2px 6px; border-radius: 4px; margin-left: 6px; }
+    .delete-btn { background: transparent; color: var(--danger); border: none; cursor: pointer; font-size: 14px; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <h1>Academy Management System</h1>
+    <button id="notifyBtn" class="btn-notify" onclick="enableNotifications()">🔔 Enable 1-Hour Alerts</button>
+  </header>
+
+  <!-- Add Student Form -->
+  <div class="form-card">
+    <h2 style="font-size: 16px; margin-bottom: 14px;">Add New Student Schedule</h2>
+    <form id="studentForm">
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Student Name</label>
+          <input type="text" id="name" required placeholder="e.g. Ali Ahmed" />
+        </div>
+        <div class="form-group">
+          <label>Category</label>
+          <select id="category" required>
+            <option value="Pakistan">Pakistan</option>
+            <option value="International">International</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Phone / WhatsApp</label>
+          <input type="text" id="phone" required placeholder="+92 300..." />
+        </div>
+        <div class="form-group">
+          <label>Next Class Time</label>
+          <input type="datetime-local" id="classTime" required />
+        </div>
+        <div class="form-group">
+          <label>Fee Status</label>
+          <select id="feeStatus">
+            <option value="Paid">Paid</option>
+            <option value="Pending">Pending (Needs Follow-up)</option>
+          </select>
+        </div>
+      </div>
+      <button type="submit" class="btn-submit">+ Save Student</button>
+    </form>
+  </div>
+
+  <!-- Filters and Section Tabs -->
+  <div class="controls">
+    <div class="tabs">
+      <button class="tab-btn active" onclick="setFilter('All')">All Students</button>
+      <button class="tab-btn" onclick="setFilter('Pakistan')">Pakistan</button>
+      <button class="tab-btn" onclick="setFilter('International')">International</button>
+    </div>
+    <div>
+      <label style="font-size: 13px; color: var(--text-dim); margin-right: 8px;">Fees:</label>
+      <select id="feeFilter" onchange="renderStudents()" style="padding: 6px 10px;">
+        <option value="All">All Fees</option>
+        <option value="Pending">Only Unpaid / Pending</option>
+        <option value="Paid">Only Paid</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Students Data Table -->
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>Student</th>
+          <th>Category</th>
+          <th>Contact</th>
+          <th>Next Class Schedule</th>
+          <th>Fee Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="studentTableBody">
+        <!-- Rendered by JS -->
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Firebase SDK Imports (v9 Modular CDN) -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+  import { 
+    getFirestore, 
+    collection, 
+    addDoc, 
+    onSnapshot, 
+    doc, 
+    updateDoc, 
+    deleteDoc 
+  } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+  // TODO: Apni Firebase Project ki Configuration yahan paste karein
+  const firebaseConfig = {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+    projectId: "YOUR_PROJECT_ID",
+    storageBucket: "YOUR_PROJECT_ID.appspot.com",
+    messagingSenderId: "YOUR_SENDER_ID",
+    appId: "YOUR_APP_ID"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+  const studentsCol = collection(db, "students");
+
+  let studentsList = [];
+  let currentCategoryFilter = "All";
+  const notifiedEvents = new Set();
+
+  // Notification Permissions
+  window.enableNotifications = () => {
+    if (!("Notification" in window)) {
+      alert("Browser push notifications support nahi karta.");
+      return;
+    }
+    Notification.requestPermission().then(permission => {
+      if (permission === "granted") {
+        document.getElementById("notifyBtn").innerText = "✅ Notifications Active";
+        new Notification("Class Alerts Activated", {
+          body: "Aapko class se 1 hour pehle alert milta rahega."
+        });
+      }
+    });
+  };
+
+  // Realtime Database Listener
+  onSnapshot(studentsCol, (snapshot) => {
+    studentsList = [];
+    snapshot.forEach((docSnap) => {
+      studentsList.push({ id: docSnap.id, ...docSnap.data() });
+    });
+    renderStudents();
+  });
+
+  // Add Student
+  document.getElementById("studentForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const newStudent = {
+      name: document.getElementById("name").value,
+      category: document.getElementById("category").value,
+      phone: document.getElementById("phone").value,
+      classTime: document.getElementById("classTime").value,
+      feeStatus: document.getElementById("feeStatus").value,
+      createdAt: new Date().toISOString()
+    };
+    await addDoc(studentsCol, newStudent);
+    document.getElementById("studentForm").reset();
+  });
+
+  // Toggle Fee Status
+  window.toggleFeeStatus = async (id, currentStatus) => {
+    const newStatus = currentStatus === "Paid" ? "Pending" : "Paid";
+    await updateDoc(doc(db, "students", id), { feeStatus: newStatus });
+  };
+
+  // Delete Student
+  window.deleteStudent = async (id) => {
+    if (confirm("Kya aap is student ko delete karna chahte hain?")) {
+      await deleteDoc(doc(db, "students", id));
+    }
+  };
+
+  // Category Filter
+  window.setFilter = (category) => {
+    currentCategoryFilter = category;
+    document.querySelectorAll(".tab-btn").forEach(btn => {
+      btn.classList.toggle("active", btn.innerText.includes(category));
+    });
+    renderStudents();
+  };
+
+  // Render Table Function
+  window.renderStudents = () => {
+    const tbody = document.getElementById("studentTableBody");
+    tbody.innerHTML = "";
+    const feeFilter = document.getElementById("feeFilter").value;
+
+    const filtered = studentsList.filter(s => {
+      const matchCat = currentCategoryFilter === "All" || s.category === currentCategoryFilter;
+      const matchFee = feeFilter === "All" || s.feeStatus === feeFilter;
+      return matchCat && matchFee;
+    });
+
+    if (filtered.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; color: var(--text-dim); padding: 24px;">Koi record nahi mila.</td></tr>`;
+      return;
+    }
+
+    filtered.forEach(s => {
+      const dateObj = new Date(s.classTime);
+      const formattedDate = isNaN(dateObj) ? s.classTime : dateObj.toLocaleString('en-PK', { 
+        dateStyle: 'medium', 
+        timeStyle: 'short' 
+      });
+
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td style="font-weight: 600;">${s.name}</td>
+        <td>
+          <span class="badge ${s.category === 'Pakistan' ? 'badge-pk' : 'badge-intl'}">
+            ${s.category}
+          </span>
+        </td>
+        <td style="color: var(--text-dim);">${s.phone}</td>
+        <td>${formattedDate}</td>
+        <td>
+          <button class="status-btn ${s.feeStatus === 'Paid' ? 'status-paid' : 'status-unpaid'}" 
+                  onclick="toggleFeeStatus('${s.id}', '${s.feeStatus}')">
+            ${s.feeStatus}
+          </button>
+          ${s.feeStatus === 'Pending' ? '<span class="follow-up-badge">Follow-up</span>' : ''}
+        </td>
+        <td>
+          <button class="delete-btn" onclick="deleteStudent('${s.id}')">✕</button>
+        </td>
+      `;
+      tbody.appendChild(tr);
+    });
+  };
+
+  // Background Checker: 1-Hour Notification Logic (Runs every 30 seconds)
+  setInterval(() => {
+    if (Notification.permission !== "granted") return;
+
+    const now = new Date().getTime();
+
+    studentsList.forEach(student => {
+      if (!student.classTime) return;
+      const classDate = new Date(student.classTime).getTime();
+      const diffInMinutes = Math.round((classDate - now) / (1000 * 60));
+
+      // Notification trigger agar class exactly 55 se 60 minute ke andar ho
+      if (diffInMinutes > 0 && diffInMinutes <= 60 && !notifiedEvents.has(student.id)) {
+        new Notification(`⏰ Class Reminder: ${student.name}`, {
+          body: `${student.name} ki class agle ${diffInMinutes} minute mein start hone wali hai! (${student.category})`,
+          icon: "https://cdn-icons-png.flaticon.com/512/2984/2984976.png"
+        });
+        notifiedEvents.add(student.id); // Duplicate alerts rokne ke liye
+      }
+    });
+  }, 30000);
+</script>
+
+</body>
+</html>
