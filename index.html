@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Student & Class Management Portal</title>
+  <title>Student Academy Management Portal</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #0f172a;
-      --card-bg: #1e293b;
-      --accent: #3b82f6;
+      --bg: #0b132b;
+      --card-bg: #1c2541;
+      --accent: #3a86ff;
       --text: #f8fafc;
       --text-dim: #94a3b8;
       --success: #10b981;
@@ -23,19 +23,25 @@
     .container { max-width: 1200px; margin: 0 auto; }
 
     header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
-    h1 { font-size: 24px; font-weight: 700; }
-    .btn-notify { background-color: var(--warning); color: #000; padding: 8px 16px; border-radius: 6px; border: none; font-weight: 600; cursor: pointer; }
+    h1 { font-size: 22px; font-weight: 700; }
+    .btn-notify { background-color: var(--warning); color: #000; padding: 9px 18px; border-radius: 8px; border: none; font-weight: 600; cursor: pointer; }
 
     /* Form Container */
-    .form-card { background: var(--card-bg); padding: 20px; border-radius: 12px; border: 1px solid var(--border); margin-bottom: 24px; }
-    .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
+    .form-card { background: var(--card-bg); padding: 22px; border-radius: 12px; border: 1px solid var(--border); margin-bottom: 24px; }
+    .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; }
     .form-group { display: flex; flex-direction: column; gap: 6px; }
     label { font-size: 13px; color: var(--text-dim); }
-    input, select { background: #0f172a; border: 1px solid var(--border); padding: 10px; border-radius: 6px; color: var(--text); outline: none; }
+    input, select { background: #0b132b; border: 1px solid var(--border); padding: 10px; border-radius: 6px; color: var(--text); outline: none; }
     input:focus, select:focus { border-color: var(--accent); }
-    .btn-submit { background: var(--accent); color: #fff; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: 600; margin-top: 18px; }
 
-    /* Tabs & Filters */
+    /* Days Checkboxes */
+    .days-box { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 6px; }
+    .day-label { display: flex; align-items: center; gap: 4px; font-size: 12px; background: #0b132b; padding: 5px 8px; border-radius: 4px; border: 1px solid var(--border); cursor: pointer; }
+    .day-label input { accent-color: var(--accent); cursor: pointer; }
+
+    .btn-submit { background: var(--accent); color: #fff; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: 600; margin-top: 16px; }
+
+    /* Filters & Controls */
     .controls { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 12px; }
     .tabs { display: flex; gap: 8px; }
     .tab-btn { background: var(--card-bg); color: var(--text-dim); border: 1px solid var(--border); padding: 8px 16px; border-radius: 6px; cursor: pointer; }
@@ -44,40 +50,50 @@
     /* Table Styles */
     .table-container { background: var(--card-bg); border-radius: 12px; border: 1px solid var(--border); overflow-x: auto; }
     table { width: 100%; border-collapse: collapse; text-align: left; font-size: 14px; }
-    th { background: #162032; padding: 14px; color: var(--text-dim); font-weight: 600; border-bottom: 1px solid var(--border); }
-    td { padding: 14px; border-bottom: 1px solid var(--border); }
+    th { background: #131b33; padding: 14px; color: var(--text-dim); font-weight: 600; border-bottom: 1px solid var(--border); }
+    td { padding: 14px; border-bottom: 1px solid var(--border); vertical-align: middle; }
     tr:last-child td { border-bottom: none; }
 
     /* Badges & Buttons */
     .badge { padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: 600; }
     .badge-pk { background: #064e3b; color: #34d399; }
     .badge-intl { background: #312e81; color: #818cf8; }
-    .status-btn { padding: 4px 10px; border-radius: 4px; border: none; cursor: pointer; font-size: 12px; font-weight: 600; }
+    .day-chip { display: inline-block; background: #334155; font-size: 11px; padding: 2px 6px; border-radius: 3px; margin: 1px; }
+
+    .status-btn { padding: 5px 12px; border-radius: 5px; border: none; cursor: pointer; font-size: 12px; font-weight: 600; }
     .status-paid { background: #064e3b; color: #34d399; }
     .status-unpaid { background: #7f1d1d; color: #f87171; }
     .follow-up-badge { display: inline-block; background: var(--danger); color: white; font-size: 10px; padding: 2px 6px; border-radius: 4px; margin-left: 6px; }
-    .delete-btn { background: transparent; color: var(--danger); border: none; cursor: pointer; font-size: 14px; }
+
+    .action-btn { background: transparent; border: none; cursor: pointer; font-size: 15px; margin-right: 8px; }
+    .btn-edit { color: var(--accent); }
+    .btn-del { color: var(--danger); }
+
+    /* Edit Modal */
+    .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); justify-content: center; align-items: center; z-index: 100; }
+    .modal-content { background: var(--card-bg); border: 1px solid var(--border); padding: 24px; border-radius: 12px; width: 100%; max-width: 500px; max-height: 90vh; overflow-y: auto; }
+    .modal-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; }
   </style>
 </head>
 <body>
 
 <div class="container">
   <header>
-    <h1>Academy Management System</h1>
+    <h1>Student Management & Repeating Classes</h1>
     <button id="notifyBtn" class="btn-notify" onclick="enableNotifications()">🔔 Enable 1-Hour Alerts</button>
   </header>
 
   <!-- Add Student Form -->
   <div class="form-card">
-    <h2 style="font-size: 16px; margin-bottom: 14px;">Add New Student Schedule</h2>
+    <h2 style="font-size: 16px; margin-bottom: 14px;">Add New Student (Weekly Fixed Routine)</h2>
     <form id="studentForm">
       <div class="form-grid">
         <div class="form-group">
           <label>Student Name</label>
-          <input type="text" id="name" required placeholder="e.g. Ali Ahmed" />
+          <input type="text" id="name" required placeholder="e.g. Hassan Raza" />
         </div>
         <div class="form-group">
-          <label>Category</label>
+          <label>Section</label>
           <select id="category" required>
             <option value="Pakistan">Pakistan</option>
             <option value="International">International</option>
@@ -88,22 +104,29 @@
           <input type="text" id="phone" required placeholder="+92 300..." />
         </div>
         <div class="form-group">
-          <label>Next Class Time</label>
-          <input type="datetime-local" id="classTime" required />
-        </div>
-        <div class="form-group">
-          <label>Fee Status</label>
-          <select id="feeStatus">
-            <option value="Paid">Paid</option>
-            <option value="Pending">Pending (Needs Follow-up)</option>
-          </select>
+          <label>Daily Class Time</label>
+          <input type="time" id="classTime" required />
         </div>
       </div>
-      <button type="submit" class="btn-submit">+ Save Student</button>
+
+      <div class="form-group" style="margin-top: 14px;">
+        <label>Weekly Class Days:</label>
+        <div class="days-box" id="daysContainer">
+          <label class="day-label"><input type="checkbox" value="1"> Mon</label>
+          <label class="day-label"><input type="checkbox" value="2"> Tue</label>
+          <label class="day-label"><input type="checkbox" value="3"> Wed</label>
+          <label class="day-label"><input type="checkbox" value="4"> Thu</label>
+          <label class="day-label"><input type="checkbox" value="5"> Fri</label>
+          <label class="day-label"><input type="checkbox" value="6"> Sat</label>
+          <label class="day-label"><input type="checkbox" value="0"> Sun</label>
+        </div>
+      </div>
+
+      <button type="submit" class="btn-submit">+ Save Student Schedule</button>
     </form>
   </div>
 
-  <!-- Filters and Section Tabs -->
+  <!-- Controls & Filters -->
   <div class="controls">
     <div class="tabs">
       <button class="tab-btn active" onclick="setFilter('All')">All Students</button>
@@ -114,8 +137,8 @@
       <label style="font-size: 13px; color: var(--text-dim); margin-right: 8px;">Fees:</label>
       <select id="feeFilter" onchange="renderStudents()" style="padding: 6px 10px;">
         <option value="All">All Fees</option>
-        <option value="Pending">Only Unpaid / Pending</option>
-        <option value="Paid">Only Paid</option>
+        <option value="Pending">This Month Unpaid / Follow-up</option>
+        <option value="Paid">This Month Paid</option>
       </select>
     </div>
   </div>
@@ -126,34 +149,71 @@
       <thead>
         <tr>
           <th>Student</th>
-          <th>Category</th>
+          <th>Section</th>
           <th>Contact</th>
-          <th>Next Class Schedule</th>
-          <th>Fee Status</th>
-          <th>Action</th>
+          <th>Weekly Routine</th>
+          <th>Fee Status (Current Month)</th>
+          <th>Actions</th>
         </tr>
       </thead>
-      <tbody id="studentTableBody">
-        <!-- Rendered by JS -->
-      </tbody>
+      <tbody id="studentTableBody"></tbody>
     </table>
   </div>
 </div>
 
-<!-- Firebase SDK Imports (v9 Modular CDN) -->
+<!-- Edit Student Modal -->
+<div id="editModal" class="modal">
+  <div class="modal-content">
+    <h3 style="margin-bottom: 16px;">Student Details Edit Karein</h3>
+    <form id="editForm">
+      <input type="hidden" id="editId" />
+      <div class="form-group" style="margin-bottom: 12px;">
+        <label>Student Name</label>
+        <input type="text" id="editName" required />
+      </div>
+      <div class="form-group" style="margin-bottom: 12px;">
+        <label>Section</label>
+        <select id="editCategory" required>
+          <option value="Pakistan">Pakistan</option>
+          <option value="International">International</option>
+        </select>
+      </div>
+      <div class="form-group" style="margin-bottom: 12px;">
+        <label>Phone / WhatsApp</label>
+        <input type="text" id="editPhone" required />
+      </div>
+      <div class="form-group" style="margin-bottom: 12px;">
+        <label>Daily Class Time</label>
+        <input type="time" id="editClassTime" required />
+      </div>
+      <div class="form-group">
+        <label>Weekly Class Days:</label>
+        <div class="days-box" id="editDaysContainer">
+          <label class="day-label"><input type="checkbox" value="1"> Mon</label>
+          <label class="day-label"><input type="checkbox" value="2"> Tue</label>
+          <label class="day-label"><input type="checkbox" value="3"> Wed</label>
+          <label class="day-label"><input type="checkbox" value="4"> Thu</label>
+          <label class="day-label"><input type="checkbox" value="5"> Fri</label>
+          <label class="day-label"><input type="checkbox" value="6"> Sat</label>
+          <label class="day-label"><input type="checkbox" value="0"> Sun</label>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="tab-btn" onclick="closeEditModal()">Cancel</button>
+        <button type="submit" class="btn-submit" style="margin-top:0;">Save Changes</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Firebase SDK -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
   import { 
-    getFirestore, 
-    collection, 
-    addDoc, 
-    onSnapshot, 
-    doc, 
-    updateDoc, 
-    deleteDoc 
+    getFirestore, collection, addDoc, onSnapshot, doc, updateDoc, deleteDoc 
   } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-  // TODO: Apni Firebase Project ki Configuration yahan paste karein
+  // Apna Firebase config yahan paste karein:
   const firebaseConfig = {
     apiKey: "YOUR_API_KEY",
     authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
@@ -169,20 +229,25 @@
 
   let studentsList = [];
   let currentCategoryFilter = "All";
-  const notifiedEvents = new Set();
+  const notifiedTodaySet = new Set();
+  const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
-  // Notification Permissions
+  // Helper: Current Year-Month String (e.g., "2026-09")
+  function getCurrentMonthKey() {
+    const now = new Date();
+    return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+  }
+
+  // Notification Permission
   window.enableNotifications = () => {
     if (!("Notification" in window)) {
-      alert("Browser push notifications support nahi karta.");
+      alert("Browser notification support nahi karta.");
       return;
     }
     Notification.requestPermission().then(permission => {
       if (permission === "granted") {
-        document.getElementById("notifyBtn").innerText = "✅ Notifications Active";
-        new Notification("Class Alerts Activated", {
-          body: "Aapko class se 1 hour pehle alert milta rahega."
-        });
+        document.getElementById("notifyBtn").innerText = "✅ Alerts Active";
+        new Notification("Alerts Enabled", { body: "Har class se 1 ghanta pehle notification pop-up aayega." });
       }
     });
   };
@@ -196,25 +261,36 @@
     renderStudents();
   });
 
-  // Add Student
+  // Add Student Form Handler
   document.getElementById("studentForm").addEventListener("submit", async (e) => {
     e.preventDefault();
+    const selectedDays = Array.from(document.querySelectorAll("#daysContainer input:checked")).map(cb => parseInt(cb.value));
+
+    if (selectedDays.length === 0) {
+      alert("Hafte ka kam az kam 1 din lazmi select karein!");
+      return;
+    }
+
     const newStudent = {
       name: document.getElementById("name").value,
       category: document.getElementById("category").value,
       phone: document.getElementById("phone").value,
-      classTime: document.getElementById("classTime").value,
-      feeStatus: document.getElementById("feeStatus").value,
+      classTime: document.getElementById("classTime").value, // "17:00"
+      days: selectedDays, // [1, 3, 5]
+      lastPaidMonth: getCurrentMonthKey(), // Default current month paid
       createdAt: new Date().toISOString()
     };
+
     await addDoc(studentsCol, newStudent);
     document.getElementById("studentForm").reset();
   });
 
-  // Toggle Fee Status
-  window.toggleFeeStatus = async (id, currentStatus) => {
-    const newStatus = currentStatus === "Paid" ? "Pending" : "Paid";
-    await updateDoc(doc(db, "students", id), { feeStatus: newStatus });
+  // Toggle Fee for Current Month
+  window.toggleFeeForMonth = async (id, currentLastPaidMonth) => {
+    const currentMonth = getCurrentMonthKey();
+    // Agar current month paid hai to use pichle month par set karke unpaid bana dein
+    const newMonthValue = (currentLastPaidMonth === currentMonth) ? "PREVIOUS_UNPAID" : currentMonth;
+    await updateDoc(doc(db, "students", id), { lastPaidMonth: newMonthValue });
   };
 
   // Delete Student
@@ -224,7 +300,52 @@
     }
   };
 
-  // Category Filter
+  // Open Edit Modal
+  window.openEditModal = (id) => {
+    const student = studentsList.find(s => s.id === id);
+    if (!student) return;
+
+    document.getElementById("editId").value = student.id;
+    document.getElementById("editName").value = student.name;
+    document.getElementById("editCategory").value = student.category;
+    document.getElementById("editPhone").value = student.phone;
+    document.getElementById("editClassTime").value = student.classTime;
+
+    const editCheckboxes = document.querySelectorAll("#editDaysContainer input");
+    editCheckboxes.forEach(cb => {
+      cb.checked = (student.days || []).includes(parseInt(cb.value));
+    });
+
+    document.getElementById("editModal").style.display = "flex";
+  };
+
+  window.closeEditModal = () => {
+    document.getElementById("editModal").style.display = "none";
+  };
+
+  // Save Edit Form
+  document.getElementById("editForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const id = document.getElementById("editId").value;
+    const selectedDays = Array.from(document.querySelectorAll("#editDaysContainer input:checked")).map(cb => parseInt(cb.value));
+
+    if (selectedDays.length === 0) {
+      alert("Hafte ka kam az kam 1 din select karein!");
+      return;
+    }
+
+    await updateDoc(doc(db, "students", id), {
+      name: document.getElementById("editName").value,
+      category: document.getElementById("editCategory").value,
+      phone: document.getElementById("editPhone").value,
+      classTime: document.getElementById("editClassTime").value,
+      days: selectedDays
+    });
+
+    closeEditModal();
+  });
+
+  // Tab Filtering
   window.setFilter = (category) => {
     currentCategoryFilter = category;
     document.querySelectorAll(".tab-btn").forEach(btn => {
@@ -233,29 +354,30 @@
     renderStudents();
   };
 
-  // Render Table Function
+  // Render Table
   window.renderStudents = () => {
     const tbody = document.getElementById("studentTableBody");
     tbody.innerHTML = "";
     const feeFilter = document.getElementById("feeFilter").value;
+    const currentMonth = getCurrentMonthKey();
 
     const filtered = studentsList.filter(s => {
+      const isPaidThisMonth = (s.lastPaidMonth === currentMonth);
+      const feeStatus = isPaidThisMonth ? "Paid" : "Pending";
+
       const matchCat = currentCategoryFilter === "All" || s.category === currentCategoryFilter;
-      const matchFee = feeFilter === "All" || s.feeStatus === feeFilter;
+      const matchFee = feeFilter === "All" || feeStatus === feeFilter;
       return matchCat && matchFee;
     });
 
     if (filtered.length === 0) {
-      tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; color: var(--text-dim); padding: 24px;">Koi record nahi mila.</td></tr>`;
+      tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color: var(--text-dim); padding: 24px;">Koi student record mojood nahi.</td></tr>`;
       return;
     }
 
     filtered.forEach(s => {
-      const dateObj = new Date(s.classTime);
-      const formattedDate = isNaN(dateObj) ? s.classTime : dateObj.toLocaleString('en-PK', { 
-        dateStyle: 'medium', 
-        timeStyle: 'short' 
-      });
+      const isPaid = (s.lastPaidMonth === currentMonth);
+      const daysChips = (s.days || []).map(d => `<span class="day-chip">${dayNames[d]}</span>`).join(" ");
 
       const tr = document.createElement("tr");
       tr.innerHTML = `
@@ -266,40 +388,54 @@
           </span>
         </td>
         <td style="color: var(--text-dim);">${s.phone}</td>
-        <td>${formattedDate}</td>
         <td>
-          <button class="status-btn ${s.feeStatus === 'Paid' ? 'status-paid' : 'status-unpaid'}" 
-                  onclick="toggleFeeStatus('${s.id}', '${s.feeStatus}')">
-            ${s.feeStatus}
-          </button>
-          ${s.feeStatus === 'Pending' ? '<span class="follow-up-badge">Follow-up</span>' : ''}
+          <div style="font-weight: 500; margin-bottom: 2px;">🕒 ${s.classTime}</div>
+          <div>${daysChips}</div>
         </td>
         <td>
-          <button class="delete-btn" onclick="deleteStudent('${s.id}')">✕</button>
+          <button class="status-btn ${isPaid ? 'status-paid' : 'status-unpaid'}" 
+                  onclick="toggleFeeForMonth('${s.id}', '${s.lastPaidMonth}')">
+            ${isPaid ? 'Paid' : 'Pending'}
+          </button>
+          ${!isPaid ? '<span class="follow-up-badge">Follow-up</span>' : ''}
+        </td>
+        <td>
+          <button class="action-btn btn-edit" onclick="openEditModal('${s.id}')" title="Edit Student">✏️</button>
+          <button class="action-btn btn-del" onclick="deleteStudent('${s.id}')" title="Delete Student">🗑️</button>
         </td>
       `;
       tbody.appendChild(tr);
     });
   };
 
-  // Background Checker: 1-Hour Notification Logic (Runs every 30 seconds)
+  // Repeating 1-Hour Alert Checker (Runs every 30 seconds)
   setInterval(() => {
     if (Notification.permission !== "granted") return;
 
-    const now = new Date().getTime();
+    const now = new Date();
+    const currentDay = now.getDay(); // 0-6 (Sun-Sat)
+    const currentHour = now.getHours();
+    const currentMin = now.getMinutes();
 
     studentsList.forEach(student => {
-      if (!student.classTime) return;
-      const classDate = new Date(student.classTime).getTime();
-      const diffInMinutes = Math.round((classDate - now) / (1000 * 60));
+      // Check agar student ki class aaj ke din hai
+      if (student.days && student.days.includes(currentDay)) {
+        const [targetHour, targetMin] = student.classTime.split(":").map(Number);
 
-      // Notification trigger agar class exactly 55 se 60 minute ke andar ho
-      if (diffInMinutes > 0 && diffInMinutes <= 60 && !notifiedEvents.has(student.id)) {
-        new Notification(`⏰ Class Reminder: ${student.name}`, {
-          body: `${student.name} ki class agle ${diffInMinutes} minute mein start hone wali hai! (${student.category})`,
-          icon: "https://cdn-icons-png.flaticon.com/512/2984/2984976.png"
-        });
-        notifiedEvents.add(student.id); // Duplicate alerts rokne ke liye
+        // Minutes calculation
+        const nowTotalMins = (currentHour * 60) + currentMin;
+        const targetTotalMins = (targetHour * 60) + targetMin;
+        const diffMins = targetTotalMins - nowTotalMins;
+
+        // Exactly 50 se 60 minutes ke gap par alert trigger
+        const notifyKey = `${student.id}_${now.toDateString()}`;
+        if (diffMins > 0 && diffMins <= 60 && !notifiedTodaySet.has(notifyKey)) {
+          new Notification(`⏰ Class Reminder: ${student.name}`, {
+            body: `${student.name} ki class theek 1 ghante baad (${student.classTime}) shuru hogi! [${student.category}]`,
+            icon: "https://cdn-icons-png.flaticon.com/512/2984/2984976.png"
+          });
+          notifiedTodaySet.add(notifyKey); // Aaj ke din dobara notification trigger na ho
+        }
       }
     });
   }, 30000);
